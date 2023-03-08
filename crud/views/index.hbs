@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Boards</title>
+  </head>
+  <body>
+    <button onclick="makeBoard()">Make Board</button>
+    <br/><br/>
+    <div id="boards"></div>
+
+    <script>
+      let boards = [];
+
+      function makeBoard() {
+        const title = prompt("Enter Board Title:");
+        const description = prompt("Enter Board Description:");
+        const board = { title, description };
+        boards.push(board);
+
+        const data = {
+            title: title,
+            description: description
+        }
+
+        fetch('http://localhost:3000/boards', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          alert('Board created successfully!');
+        })
+        .catch((error) => {
+          alert('Something went wrong');
+          console.error('Error:', error);
+        });
+
+        displayBoards();
+      }
+
+      function displayBoards() {
+        const boardsDiv = document.getElementById("boards");
+        boardsDiv.innerHTML = "";
+        boards.forEach(board => {
+          const boardDiv = document.createElement("div");
+          const titleElem = document.createElement("h2");
+          titleElem.innerText = board.title;
+          const descElem = document.createElement("p");
+          descElem.innerText = board.description;
+          boardDiv.appendChild(titleElem);
+          boardDiv.appendChild(descElem);
+          boardsDiv.appendChild(boardDiv);
+        });
+      }
+    </script>
+  </body>
+</html>

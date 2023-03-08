@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Render } from '@nestjs/common';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
 import { BoardDto } from './dto/board.dto';
@@ -8,6 +8,7 @@ export class BoardsController {
     constructor(private boardsService: BoardsService) {}
 
     @Get()
+    @Render('index')
     getAllBoards(): Promise<Board[]> {
         return this.boardsService.getAllBoards()
     }
