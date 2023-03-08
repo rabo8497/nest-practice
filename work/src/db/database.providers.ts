@@ -1,5 +1,5 @@
+import User from 'src/auth/user.entity';
 import { DataSource } from 'typeorm';
-import { Board } from './boards/board.entity';
 
 export const databaseProviders = [
   {
@@ -11,9 +11,9 @@ export const databaseProviders = [
         port: 5123,
         username: 'postgres',
         password: 'kim00714',
-        database: 'board-app',
+        database: 'work',
         entities: [
-            Board,
+            User,
             __dirname + '/../**/*.entity{.ts,.js}',
         ],
         synchronize: true,

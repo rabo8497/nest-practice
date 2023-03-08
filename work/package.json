@@ -1,5 +1,5 @@
 {
-  "name": "crud",
+  "name": "work",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -24,10 +24,11 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
+    "bcryptjs": "^2.4.3",
     "class-validator": "^0.14.0",
     "hbs": "^4.2.0",
-    "path": "^0.12.7",
     "pg": "^8.10.0",
+    "pq": "^0.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "typeorm": "^0.3.12"

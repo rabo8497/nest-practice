@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup Page</title>
+    <script>
+      function validateForm() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var confirm_password = document.getElementById("confirm_password").value;
+        var checkboxes = document.getElementsByName("selection");
+        var checkedCount = 0;
+        for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            checkedCount++;
+          }
+        }
+        if (username == "" || password == "" || confirm_password == "") {
+          alert("All fields are required.");
+          return false;
+        } else if (password != confirm_password) {
+          alert("Passwords do not match.");
+          return false;
+        } else if (checkedCount > 2) {
+          alert("Please select exactly two options.");
+          return false;
+        } else {
+          var data = {
+            username: username,
+            password: password,
+            play1: 'none',
+            play2: 'none'
+        }
+
+        for (var i = 0; i < checkboxes.length; i++) {
+          if (checkboxes[i].checked) {
+            if (data.play1=='none') {
+                console.log(checkboxes[i].value)
+                data.play1 = checkboxes[i].value
+            }
+            else {
+                data.play2 = checkboxes[i].value
+            }
+            console.log(checkboxes[i].value)
+          }
+        }
+
+        fetch('http://localhost:3000/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })
+            .catch((error) => {
+            alert('Something went wrong');
+            console.error('Error:', error);
+        });
+        alert('Board created successfully!');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Signup Page</h1>
+    <form onsubmit="return validateForm()">
+      <label>Username:</label>
+      <input type="text" id="username" name="username"><br><br>
+      <label>Password:</label>
+      <input type="password" id="password" name="password"><br><br>
+      <label>Confirm Password:</label>
+      <input type="password" id="confirm_password" name="confirm_password"><br><br>
+      <label>Select exactly two options:</label><br>
+      <input type="checkbox" name="selection" value="none">none<br>
+      <input type="checkbox" name="selection" value="guitar">guitar<br>
+      <input type="checkbox" name="selection" value="piano">piano<br>
+      <input type="checkbox" name="selection" value="drum">drum<br>
+      <input type="checkbox" name="selection" value="violin">violin<br><br>
+      <input type="submit" value="Signup">
+    </form>
+  </body>
+</html>

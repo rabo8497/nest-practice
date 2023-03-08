@@ -13,6 +13,12 @@ export class BoardsController {
         return this.boardsService.getAllBoards()
     }
 
+    @Get('/get')
+    getAllBoards2(): Promise<Board[]> {
+        console.log(1)
+        return this.boardsService.getAllBoards()
+    }
+
     @Post()
     createBoard(@Body() boardDto: BoardDto): Promise<Board> {
         return this.boardsService.createBoard(boardDto)

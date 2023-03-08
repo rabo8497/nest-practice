@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Boards</title>
-  </head>
-  <body>
-    <button onclick="makeBoard()">Make Board</button>
-    <br/><br/>
-    <div id="boards"></div>
+<head>
+  <title>My Board</title>
+  <script>
+    set_init()
+    function set_init() {
+      fetch('http://localhost:3000/boards/get')
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          console.log(data[0].description)
+          // handle the response data here
+        })
+        .catch(error => console.error(error));
+    }
+    function createBoard() {
+      var title = document.getElementById("titleInput").value;
+      var description = document.getElementById("descriptionInput").value;
+      var board = document.createElement("div");
+      board.className = "board";
+      board.innerHTML = "<h2>" + title + "</h2><p>" + description + "</p>";
+      document.body.appendChild(board);
+      document.getElementById("titleInput").value = "";
+      document.getElementById("descriptionInput").value = "";
+      document.getElementById("inputWindows").style.display = "none";
+    
+      const board_data = {
+        title: title,
+        description: description
+      }
 
-    <script>
-      let boards = [];
-
-      function makeBoard() {
-        const title = prompt("Enter Board Title:");
-        const description = prompt("Enter Board Description:");
-        const board = { title, description };
-        boards.push(board);
-
-        const data = {
-            title: title,
-            description: description
-        }
-
-        fetch('http://localhost:3000/boards', {
+      fetch('http://localhost:3000/boards', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(board_data)
         })
         .then(response => response.json())
         .then(data => {
@@ -37,24 +45,41 @@
           alert('Something went wrong');
           console.error('Error:', error);
         });
+    
+    }
+  </script>
+  <style>
+    /* Styling for the input windows */
+    .input-window {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      padding: 20px;
+      border: 1px solid black;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
 
-        displayBoards();
-      }
+    /* Styling for the board elements */
+    .board {
+      background-color: lightblue;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="document.getElementById('inputWindows').style.display='block'">Create</button>
 
-      function displayBoards() {
-        const boardsDiv = document.getElementById("boards");
-        boardsDiv.innerHTML = "";
-        boards.forEach(board => {
-          const boardDiv = document.createElement("div");
-          const titleElem = document.createElement("h2");
-          titleElem.innerText = board.title;
-          const descElem = document.createElement("p");
-          descElem.innerText = board.description;
-          boardDiv.appendChild(titleElem);
-          boardDiv.appendChild(descElem);
-          boardsDiv.appendChild(boardDiv);
-        });
-      }
-    </script>
-  </body>
+  <!-- Input windows -->
+  <div id="inputWindows" class="input-window">
+    <label>Title:</label>
+    <input id="titleInput" type="text"><br>
+    <label>Description:</label>
+    <textarea id="descriptionInput"></textarea><br>
+    <button onclick="createBoard()">Create Board</button>
+  </div>
+</body>
 </html>
