@@ -56,13 +56,17 @@
             console.error('Error:', error);
         });
         alert('Board created successfully!');
+        fetch('http://localhost:3000/auth/login')
+          .catch(error => {
+            console.error(error);
+          });
         }
       }
     </script>
   </head>
   <body>
     <h1>Signup Page</h1>
-    <form onsubmit="return validateForm()">
+    <form onsubmit="return false">
       <label>Username:</label>
       <input type="text" id="username" name="username"><br><br>
       <label>Password:</label>
@@ -75,7 +79,7 @@
       <input type="checkbox" name="selection" value="piano">piano<br>
       <input type="checkbox" name="selection" value="drum">drum<br>
       <input type="checkbox" name="selection" value="violin">violin<br><br>
-      <input type="submit" value="Signup">
+      <input type="submit" value="Signup" onclick="validateForm()">
     </form>
   </body>
 </html>
