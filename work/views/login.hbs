@@ -83,8 +83,17 @@
               return response.json()
             }) 
             .then(data => {
-              let token = data.accessToken;
-              console.log(token)
+              if (data.accessToken) {
+                let token = data.accessToken;
+                localStorage.setItem('token', token);
+              }
+              const token = localStorage.getItem('token');
+              if (token) {
+                console.log(token);
+              }
+            })
+            .then(data => {
+              window.location = "http://localhost:3000/home"
             })
             .catch((error) => {
             alert('Something went wrong');

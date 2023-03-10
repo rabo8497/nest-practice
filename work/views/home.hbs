@@ -59,9 +59,17 @@
       <nav>
         <ul>
           <li><a href="http://localhost:3000/home">Home</a></li>
-          <li><a href="http://localhost:3000/auth/login">Login</a></li>
+          <li><a id="login" href="http://localhost:3000/auth/login">Login</a></li>
         </ul>
       </nav>
+      <script>
+      var element = document.getElementById('login');
+      const token = localStorage.getItem('token');
+      if (token) {
+        element.href = "http://localhost:3000/home"
+        element.textContent = 'Me'
+      }
+    </script>
     </header>
     <main>
       <!-- Your website content goes here -->

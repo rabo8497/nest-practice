@@ -40,7 +40,7 @@ export class AuthService {
     }
 
     async signIn(authCredentialDto: AuthCredentialDto) {
-        const {username, password, play1, play2} = authCredentialDto;
+        const {username, password} = authCredentialDto;
         const user = await this.userRepository.findOneBy({username})
 
         if (user && (await bcrypt.compare(password, user.password))) {
