@@ -9,14 +9,12 @@ export class AuthController {
     @Get('/signup')
     @Render('signup')
     getSignupPage() {
-        console.log(0)
         return 0
     }
 
     @Get('/login')
     @Render('login')
     getLoginPage() {
-        console.log(1)
         return 0
     }
 

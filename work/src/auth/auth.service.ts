@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 import User from './user.entity';
 import * as bcrypt from 'bcryptjs'
-import { LikePlay } from './auth-status.enum';
 
 @Injectable()
 export class AuthService {
