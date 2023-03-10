@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chat Page</title>
+  </head>
+  <body>
+    <div id="chat-box"></div>
+    <form>
+      <input type="text" id="message-input" />
+      <button type="button" onclick="sendMessage()">Send</button>
+    </form>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+      var name = prompt("이름을 적어주세요");
+      socket.on('message', function(nick, data) {
+        //console.log(data);
+        const chatBox = document.getElementById("chat-box");
+        chatBox.innerHTML += "<p>" + nick + ": " + data + "</p>";
+      })
+
+      function sendMessage() {
+        const messageInput = document.getElementById("message-input");
+        const chatBox = document.getElementById("chat-box");
+        const message = messageInput.value;
+        messageInput.value = "";
+        socket.emit('message', name, message);
+      }
+    </script>
+  </body>
+</html>
