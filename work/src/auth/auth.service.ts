@@ -1,14 +1,16 @@
-import { ConflictException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 import User from './user.entity';
 import * as bcrypt from 'bcryptjs'
+import { JwtService } from '@nestjs/jwt/dist';
 
 @Injectable()
 export class AuthService {
     constructor(
         @Inject('USER_REPOSITORY')
         private userRepository: Repository<User>,
+        private jwtService: JwtService
     ) {}
 
     async findAll(): Promise<User[]> {
@@ -34,6 +36,19 @@ export class AuthService {
             } else {
                 throw new InternalServerErrorException();
             }
+        }
+    }
+
+    async signIn(authCredentialDto: AuthCredentialDto) {
+        const {username, password, play1, play2} = authCredentialDto;
+        const user = await this.userRepository.findOneBy({username})
+
+        if (user && (await bcrypt.compare(password, user.password))) {
+            const payload = {username};
+            const accessToken = await this.jwtService.sign(payload);
+            return {accessToken};
+        } else {
+            throw new UnauthorizedException('login failed')
         }
     }
 }

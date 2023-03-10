@@ -68,11 +68,28 @@
       function login() {
         var username = document.getElementById("username").value;
         var password = document.getElementById("password").value;
-        if (username == "user" && password == "pass") {
-          alert("Login successful!");
-        } else {
-          alert("Incorrect username or password.");
+        var data = {
+            username: username,
+            password: password
         }
+        fetch('http://localhost:3000/auth/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+            })
+            .then(response => {
+              return response.json()
+            }) 
+            .then(data => {
+              let token = data.accessToken;
+              console.log(token)
+            })
+            .catch((error) => {
+            alert('Something went wrong');
+            console.error('Error:', error);
+        });
       }
     </script>
   </head>
