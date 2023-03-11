@@ -266,12 +266,21 @@ function handleApplyClick() {
     })
 
   if (Token) {
+    var select1 = 'none'
+    var select2 = 'none'
+    var select3 = 'none'
     for(let i = 0; i < 48; i++) {
       result_ = 'none'
       let boxnum = 'box-' + String(i)
       let conbox = document.getElementById(boxnum)
       if (conbox.classList.contains('selected')) {
-
+      if (select1 === 'none') {
+        select1 = boxnum
+      } else if (select2 === 'none') {
+        select2 = boxnum
+      } else if (select3 === 'none') {
+        select3 = boxnum
+      }
       var data = {
           timeBoxName: boxnum,
           userName: nickName
@@ -296,7 +305,14 @@ function handleApplyClick() {
             console.error('Error:', error);
         });
     }
-      } 
+      }
+      console.log(select1, select2, select3) 
+
+      var data = {
+        select1,
+        select2,
+        select3
+      }
   } else {
         alert('로그인을 해주세요')
       }
