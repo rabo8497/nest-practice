@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+    <style>
+      /* CSS styles for the top bar */
+      header {
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+      }
+      
+      #logo {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      
+      nav {
+        display: flex;
+      }
+      
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      
+      nav li {
+        margin-left: 20px;
+      }
+      
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      
+      nav a:hover {
+        background-color: #fff;
+        color: #333;
+      }
+    </style>
+    <title>My Personal Information</title>
+  </head>
+  <body>
+    <header>
+      <div id="logo">My Website</div>
+      <nav>
+        <ul>
+          <li><a href="http://localhost:3000/home">Home</a></li>
+          <li><a href="http://localhost:3000/auth/myinfo">Me</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+        <head>
+	<title>Personal Information</title>
+	<script>
+		function logout() {
+			// code to logout goes here
+			alert("Logged out successfully!");
+		}
+	</script>
+</head>
+<body>
+	<h1>Personal Information</h1>
+	<p>Nickname: <span id="nickname"></span></p>
+	<p>Favorite Instruments:</p>
+	<ul>
+		<li><span id="instrument1"></span></li>
+		<li><span id="instrument2"></span></li>
+	</ul>
+	<button onclick="logout()">Logout</button>
+	<script>
+		// set the nickname and favorite instruments
+		document.getElementById("nickname").innerHTML = "John";
+		document.getElementById("instrument1").innerHTML = "Guitar";
+		document.getElementById("instrument2").innerHTML = "Piano";
+	</script>
+</body>
+    </main>
+  </body>
+</html>

@@ -18,6 +18,13 @@ export class AuthController {
         return 0
     }
 
+    @Get('/myinfo')
+    @Render('myinfo')
+    getInfoPage() {
+        console.log(1)
+        return 0
+    }
+
     @Post('/signup')
     signUp(@Body() authCredentialDto: AuthCredentialDto) : Promise<void> {
         return this.authService.signUp(authCredentialDto);
