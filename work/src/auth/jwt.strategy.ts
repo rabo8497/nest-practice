@@ -11,7 +11,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         private userRepository: Repository<User>,
     ) {
         super({
-            secretOrKey: 'secret',
+            secretOrKey: 'Secret',
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
         });
     }

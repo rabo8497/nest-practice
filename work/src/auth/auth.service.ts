@@ -21,8 +21,6 @@ export class AuthService {
         const {username, password, play1, play2, select1, select2, select3} = authCredentialDto;
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt)
-        console.log(play1)
-        console.log(select1)
         const user = this.userRepository.create({
             username, 
             password: hashedPassword,
