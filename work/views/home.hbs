@@ -266,17 +266,14 @@ function handleApplyClick() {
     })
 
   if (Token) {
-    for(let i = 0; i < 3; i++) {
+    for(let i = 0; i < 48; i++) {
       result_ = 'none'
-      if (selectedBoxIds[i]) {
-        result_ = selectedBoxIds[i].id
-        console.log(result_)
-      } else {
-        continue;
-      }
+      let boxnum = 'box-' + String(i)
+      let conbox = document.getElementById(boxnum)
+      if (conbox.classList.contains('selected')) {
 
       var data = {
-          timeBoxName: result_,
+          timeBoxName: boxnum,
           userName: nickName
       }
       console.log(data)
@@ -298,6 +295,7 @@ function handleApplyClick() {
             alert('Something went wrong');
             console.error('Error:', error);
         });
+    }
       } 
   } else {
         alert('로그인을 해주세요')

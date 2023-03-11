@@ -21,7 +21,6 @@ export class AuthController {
     @Get('/myinfo')
     @Render('myinfo')
     getInfoPage() {
-        console.log(1)
         return 0
     }
 

@@ -71,6 +71,8 @@
 		function logout() {
 			// code to logout goes here
 			alert("Logged out successfully!");
+      localStorage.removeItem('token')
+      window.location = "http://localhost:3000/home"
 		}
 	</script>
 </head>
