@@ -34,6 +34,12 @@ export class ScheduleController {
         return this.scheduleService.findUserName(user)
     }
 
+    @UseGuards(AuthGuard('jwt'))
+    @Get('/userId')
+    findUserId(@GetUser() user:User): Promise<number> {
+        return this.scheduleService.findUserId(user)
+    }
+
      @UseGuards(AuthGuard('jwt'))
      @Delete()
      deleteMySche(@GetUser() user:User): Promise<void> {

@@ -37,13 +37,18 @@ export class ScheduleService {
         return user.username;
     }
 
+    async findUserId(user: User): Promise<number> {
+        return user.id
+    }
+
     async deleteMySche(user: User): Promise<void> {
          const query = this.scheRepository.createQueryBuilder('sche');
-         query.where('sche.userId = :userId', {userId: user.id})
+         query.where('sche.userName = :userName', {userName: user.username})
          const sches = await query.getMany();
          for (let i = 0; i < sches.length; i++) {
              var id = sches[i].id
              const result = await this.scheRepository.delete({id})
          }
+
      }
 }

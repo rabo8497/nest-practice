@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
 import User from './user.entity';
@@ -54,4 +54,17 @@ export class AuthService {
             throw new UnauthorizedException('login failed')
         }
     }
+
+    async updateUserSelect(id: number, authCredentialDto: AuthCredentialDto): Promise<User> {
+        const {select1, select2, select3} = authCredentialDto;
+        const found = await this.userRepository.findOneBy({id})
+        if (!found) {
+            throw new NotFoundException("can't find")
+        }
+        found.select1 = select1;
+        found.select2 = select2;
+        found.select3 = select3;
+        await this.userRepository.save(found)
+        return found
+     }
 }

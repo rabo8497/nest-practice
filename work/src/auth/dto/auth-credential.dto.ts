@@ -2,6 +2,7 @@ import { IsString, Matches, MaxLength, maxLength, MinLength } from "class-valida
 import { LikePlay } from "../auth-status.enum";
 
 export class AuthCredentialDto {
+    
     @IsString()
     @MinLength(4)
     @MaxLength(20)

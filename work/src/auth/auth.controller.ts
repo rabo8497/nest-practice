@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, Redirect, Render } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Redirect, Render } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
+import User from './user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -34,4 +35,11 @@ export class AuthController {
         return this.authService.signIn(authCredentialDto)
     }
 
+    @Patch('/:id')
+    updateUserSelect(
+        @Param('id') id: number,
+        @Body() authCredentialDto: AuthCredentialDto
+    ): Promise<User> {
+        return this.authService.updateUserSelect(id, authCredentialDto)
+    }
 }
