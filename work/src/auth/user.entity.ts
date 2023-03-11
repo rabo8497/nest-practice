@@ -18,4 +18,12 @@ export default class User extends BaseEntity {
     @Column()
     play2: LikePlay;
     
+    @Column()
+    select1: string;
+    
+    @Column()
+    select2: string;
+    
+    @Column()
+    select3: string;
 }

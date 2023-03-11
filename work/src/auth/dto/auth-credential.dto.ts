@@ -18,4 +18,8 @@ export class AuthCredentialDto {
 
     play1: LikePlay;
     play2: LikePlay;
+
+    select1: string;
+    select2: string;
+    select3: string;
 }
