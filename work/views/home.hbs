@@ -51,6 +51,22 @@
         background-color: #fff;
         color: #333;
       }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 10px;
+        margin: 20px;
+      }
+      .box {
+        width: 150px;
+        height: 50px;
+        border: 1px solid black;
+        cursor: pointer;
+      }
+      .selected {
+        background-color: yellow;
+      }
     </style>
   </head>
   <body>
@@ -72,7 +88,132 @@
     </script>
     </header>
     <main>
-      <!-- Your website content goes here -->
+      <div class="grid">
+		<div>
+			<h3>A</h3>
+			<div>
+				<div class="box" id="box-0">00:00~01:00</div>
+				<div class="box" id="box-1">01:00~02:00</div>
+				<div class="box" id="box-2">02:00~03:00</div>
+				<div class="box" id="box-3">03:00~04:00</div>
+				<div class="box" id="box-4">04:00~05:00</div>
+				<div class="box" id="box-5">05:00~06:00</div>
+				<div class="box" id="box-6">06:00~07:00</div>
+				<div class="box" id="box-7">07:00~08:00</div>
+				<div class="box" id="box-8">08:00~09:00</div>
+				<div class="box" id="box-9">09:00~10:00</div>
+				<div class="box" id="box-10">10:00~11:00</div>
+				<div class="box" id="box-11">11:00~12:00</div>
+				<div class="box" id="box-12">12:00~13:00</div>
+				<div class="box" id="box-13">13:00~14:00</div>
+				<div class="box" id="box-14">14:00~15:00</div>
+				<div class="box" id="box-15">15:00~16:00</div>
+				<div class="box" id="box-16">16:00~17:00</div>
+				<div class="box" id="box-17">17:00~18:00</div>
+				<div class="box" id="box-18">18:00~19:00</div>
+				<div class="box" id="box-19">19:00~20:00</div>
+				<div class="box" id="box-20">20:00~21:00</div>
+				<div class="box" id="box-21">21:00~22:00</div>
+				<div class="box" id="box-22">22:00~23:00</div>
+				<div class="box" id="box-23">23:00~24:00</div>
+			</div>
+		</div>
+		<div>
+			<h3>B</h3>
+			<div>
+				<div class="box" id="box-24">00:00~01:00</div>
+				<div class="box" id="box-25">01:00~02:00</div>
+				<div class="box" id="box-26">02:00~03:00</div>
+				<div class="box" id="box-27">03:00~04:00</div>
+				<div class="box" id="box-28">04:00~05:00</div>
+				<div class="box" id="box-29">05:00~06:00</div>
+				<div class="box" id="box-30">06:00~07:00</div>
+				<div class="box" id="box-31">07:00~08:00</div>
+				<div class="box" id="box-32">08:00~09:00</div>
+				<div class="box" id="box-33">09:00~10:00</div>
+				<div class="box" id="box-34">10:00~11:00</div>
+				<div class="box" id="box-35">11:00~12:00</div>
+				<div class="box" id="box-36">12:00~13:00</div>
+				<div class="box" id="box-37">13:00~14:00</div>
+        <div class="box" id="box-38">14:00~15:00</div>
+				<div class="box" id="box-39">15:00~16:00</div>
+				<div class="box" id="box-40">16:00~17:00</div>
+				<div class="box" id="box-41">17:00~18:00</div>
+				<div class="box" id="box-42">18:00~19:00</div>
+				<div class="box" id="box-43">19:00~20:00</div>
+				<div class="box" id="box-44">20:00~21:00</div>
+				<div class="box" id="box-45">21:00~22:00</div>
+				<div class="box" id="box-46">22:00~23:00</div>
+				<div class="box" id="box-47">23:00~24:00</div>
+			</div>
+		</div>
+	</div>
+  <div class="container">
+	
+		<div class="grid">
+			<button id="apply-btn">Apply</button>
+		</div>
+	</div>
     </main>
+    <script>
+const boxes = document.querySelectorAll('.box');
+const leftBoxes = document.querySelectorAll('.grid:nth-child(2) .box');
+const applyBtn = document.querySelector('#apply-btn');
+
+let selectedLeftColumns = [];
+let selectedRightColumns = [];
+let selectedBoxIds = [];
+
+function handleBoxClick(id) {
+  if (this.classList.contains('selected')) {
+    this.classList.remove('selected');
+    if (this.dataset.side === 'left') {
+      selectedLeftColumns.splice(selectedLeftColumns.indexOf(this.dataset.column), 1);
+    } else {
+      selectedRightColumns.splice(selectedRightColumns.indexOf(this.dataset.column), 1);
+    }
+    selectedBoxIds = selectedBoxIds.filter(box => box.id !== id);
+  } else {
+    if (this.dataset.side === 'left' && selectedLeftColumns.length < 3) {
+      this.classList.add('selected');
+      selectedLeftColumns.push(this.dataset.column);
+    } else if (this.dataset.side === 'right' && selectedRightColumns.length < 3) {
+      this.classList.add('selected');
+      selectedRightColumns.push(this.dataset.column);
+    }
+    selectedBoxIds.push({id: id, column: this.dataset.column});
+  }
+}
+
+function handleApplyClick() {
+  const result = [];
+  
+  if (selectedBoxIds[0]) {
+    result.push(selectedBoxIds[0].id)
+  }
+  if (selectedBoxIds[1]) {
+    result.push(selectedBoxIds[1].id)
+  }
+  if (selectedBoxIds[2]) {
+    result.push(selectedBoxIds[2].id)
+  }
+
+  console.log(result)
+}
+
+boxes.forEach((box) => {
+  const id = box.getAttribute('id');
+  box.addEventListener('click', handleBoxClick.bind(box, id));
+  if (box.dataset.column < 12) {
+    box.dataset.side = 'left';
+  } else {
+    box.dataset.side = 'right';
+  }
+});
+
+applyBtn.addEventListener('click', handleApplyClick);
+
+
+	</script>
   </body>
 </html>

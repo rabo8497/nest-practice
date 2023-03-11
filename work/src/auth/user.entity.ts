@@ -17,4 +17,5 @@ export default class User extends BaseEntity {
 
     @Column()
     play2: LikePlay;
+    
 }
