@@ -80,7 +80,12 @@
             body: JSON.stringify(data)
             })
             .then(response => {
-              return response.json()
+              if (!response.ok) {
+                return response.json().then(error => {
+                  throw error;
+                });
+              }
+              return response.json();
             }) 
             .then(data => {
               if (data.accessToken) {
@@ -98,7 +103,7 @@
             .catch((error) => {
             alert('Something went wrong');
             console.error('Error:', error);
-        });
+            });
       }
     </script>
   </head>
