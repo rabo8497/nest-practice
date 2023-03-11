@@ -19,7 +19,6 @@ export class ScheduleController {
 
     @Post()
     createSche(@Body() scheCredentialDto: ScheCredentialDto, @GetUser() user:User) {
-        console.log(1)
         return this.scheduleService.createSche(scheCredentialDto, user)
     }
 }
