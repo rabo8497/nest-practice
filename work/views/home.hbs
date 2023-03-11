@@ -67,6 +67,10 @@
       .selected {
         background-color: yellow;
       }
+      .selected_other {
+        pointer-events: none;
+        background-color: green;
+      }
     </style>
   </head>
   <body>
@@ -157,19 +161,75 @@
     </main>
     <script>
 const Token = localStorage.getItem('token');
-
+var nickName = ""
 const boxes = document.querySelectorAll('.box');
 const leftBoxes = document.querySelectorAll('.grid:nth-child(2) .box');
 const applyBtn = document.querySelector('#apply-btn');
 
+
 let selectedLeftColumns = [];
 let selectedRightColumns = [];
 let selectedBoxIds = [];
+let my_len = 0
+
+fetch("http://localhost:3000/schedule", {
+  method: "GET", // GET 요청
+  headers: {
+    "Authorization": `Bearer ${Token}` // 헤더에 토큰 값 추가
+  }
+})
+.then(response => response.json()) // 응답을 JSON 형식으로 변환
+.then(data => {
+  for (let i = 0; i < data.length; i++) {
+    var boxn = data[i].timeBoxName;
+    let box_ = document.getElementById(boxn)
+    if (!box_.classList.contains('selected_other')) {
+      box_.classList.add('selected_other');
+    }
+  }
+}) // 데이터 출력
+.catch(error => console.error(error)); // 에러 처리
+
+if (Token) {
+  fetch("http://localhost:3000/schedule/username", {
+    method: "GET", // GET 요청
+    headers: {
+      "Authorization": `Bearer ${Token}` // 헤더에 토큰 값 추가
+    }
+  })
+  .then(response => response.text()) // 응답을 JSON 형식으로 변환
+  .then(data => {
+    nickName = data;
+  }) // 데이터 출력
+  .catch(error => console.error(error)); // 에러 처리
+
+  fetch("http://localhost:3000/schedule/mine", {
+    method: "GET", // GET 요청
+    headers: {
+      "Authorization": `Bearer ${Token}` // 헤더에 토큰 값 추가
+    }
+  })
+  .then(response => response.json()) // 응답을 JSON 형식으로 변환
+  .then(data => {
+    for (let i = 0; i < data.length; i++) {
+      var boxn = data[i].timeBoxName;
+      let box_ = document.getElementById(boxn)
+      if (!box_.classList.contains('selected')) {
+        box_.classList.remove('selected_other');
+        box_.classList.add('selected');
+        selectedBoxIds.push({id: boxn, column: box_.dataset.column})
+        my_len += 1
+      }
+    }
+  }) // 데이터 출력
+  .catch(error => console.error(error)); // 에러 처리
+}
 
 function handleBoxClick(id) {
   if (Token) {
     if (this.classList.contains('selected')) {
       this.classList.remove('selected');
+      my_len -= 1
       if (this.dataset.side === 'left') {
         selectedLeftColumns.splice(selectedLeftColumns.indexOf(this.dataset.column), 1);
       } else {
@@ -177,11 +237,13 @@ function handleBoxClick(id) {
       }
       selectedBoxIds = selectedBoxIds.filter(box => box.id !== id);
     } else {
-      if (this.dataset.side === 'left' && selectedLeftColumns.length < 3) {
+      if (this.dataset.side === 'left' && my_len < 3) {
         this.classList.add('selected');
+        my_len += 1
         selectedLeftColumns.push(this.dataset.column);
-      } else if (this.dataset.side === 'right' && selectedRightColumns.length < 3) {
+      } else if (this.dataset.side === 'right' && my_len < 3) {
         this.classList.add('selected');
+        my_len += 1
         selectedRightColumns.push(this.dataset.column);
       }
       selectedBoxIds.push({id: id, column: this.dataset.column});
@@ -192,23 +254,54 @@ function handleBoxClick(id) {
 }
 
 function handleApplyClick() {
-  if (Token) {
-    const result = ['none', 'none', 'none'];
-    
-    if (selectedBoxIds[0]) {
-      result[0] = selectedBoxIds[0].id
-    }
-    if (selectedBoxIds[1]) {
-      result[1] = selectedBoxIds[1].id
-    }
-    if (selectedBoxIds[2]) {
-      result[2] = selectedBoxIds[2].id
-    }
+  fetch('http://localhost:3000/schedule', {
+          method: 'DELETE',
+          headers: {
+              "Authorization": `Bearer ${Token}`,
+          },
+    })
+    .catch((error) => {
+      alert('Something went wrong');
+      console.error('Error:', error);
+    })
 
-    console.log(result)
+  if (Token) {
+    for(let i = 0; i < 3; i++) {
+      result_ = 'none'
+      if (selectedBoxIds[i]) {
+        result_ = selectedBoxIds[i].id
+        console.log(result_)
+      } else {
+        continue;
+      }
+
+      var data = {
+          timeBoxName: result_,
+          userName: nickName
+      }
+      console.log(data)
+      fetch('http://localhost:3000/schedule', {
+          method: 'POST',
+          headers: {
+              "Authorization": `Bearer ${Token}`,
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+          })
+          .then(response => {
+            return response.json()
+          }) 
+          .then(data => {
+            window.location = "http://localhost:3000/home"
+          })
+          .catch((error) => {
+            alert('Something went wrong');
+            console.error('Error:', error);
+        });
+      } 
   } else {
-    alert('로그인을 해주세요')
-  }
+        alert('로그인을 해주세요')
+      }
 
 }
 

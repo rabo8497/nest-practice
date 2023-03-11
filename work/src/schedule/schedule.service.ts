@@ -22,10 +22,28 @@ export class ScheduleService {
         return sche
     }
 
-    async getAllSche(user: User): Promise<Sche[]> {
+    async getAllSche(): Promise<Sche[]> {
+        return this.scheRepository.find()
+    }
+
+    async getAuthSche(user: User): Promise<Sche[]> {
         const query = this.scheRepository.createQueryBuilder('sche');
         query.where('sche.userId = :userId', {userId: user.id})
         const sches = await query.getMany();
         return sches
     }
+
+    async findUserName(user: User): Promise<string> {
+        return user.username;
+    }
+
+    async deleteMySche(user: User): Promise<void> {
+         const query = this.scheRepository.createQueryBuilder('sche');
+         query.where('sche.userId = :userId', {userId: user.id})
+         const sches = await query.getMany();
+         for (let i = 0; i < sches.length; i++) {
+             var id = sches[i].id
+             const result = await this.scheRepository.delete({id})
+         }
+     }
 }
