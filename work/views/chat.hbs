@@ -2,31 +2,159 @@
 <html>
   <head>
     <title>Chat Page</title>
+    <style>
+      header {
+        background-color: #333;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+      }
+      
+      #logo {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      
+      nav {
+        display: flex;
+      }
+      
+      nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+      }
+      
+      nav li {
+        margin-left: 20px;
+      }
+      
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      
+      nav a:hover {
+        background-color: #fff;
+        color: #333;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      #chat-box {
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .message {
+        display: flex;
+        margin-bottom: 10px;
+      }
+      .message-sender {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+      .message-text {
+        padding: 5px;
+        border-radius: 4px;
+        max-width: 70%;
+      }
+      .message-text.sent {
+        background-color: #007bff;
+        color: #fff;
+        align-self: flex-end;
+      }
+      .message-text.received {
+        background-color: #f1f0f0;
+        align-self: flex-start;
+      }
+      form {
+        display: flex;
+        align-items: center;
+      }
+      input[type="text"] {
+        flex: 1;
+        height: 30px;
+        padding: 5px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      button[type="button"] {
+        height: 30px;
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button[type="button"]:hover {
+        background-color: #0069d9;
+      }
+    </style>
+    <header>
+      <div id="logo">My Website</div>
+      <nav>
+        <ul>
+          <li><a href="http://localhost:3000/home">Home</a></li>
+          <li><a href="http://localhost:3000/auth/myinfo">Me</a></li>
+        </ul>
+      </nav>
+    </header>
   </head>
   <body>
     <div id="chat-box"></div>
-    <form>
-      <input type="text" id="message-input" />
+    <form id="message-form">
+      <input type="text" id="message-input" placeholder="Type your message here" />
       <button type="button" onclick="sendMessage()">Send</button>
     </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       var socket = io();
-      var name = prompt("해당 채팅은 익명으로 진행됩니다.\n채팅할 때 나타날 이름을 정해주세요.");
+      var name = prompt("This chat will be anonymous. Please choose a nickname.");
       socket.on('message', function(nick, data) {
-        //console.log(data);
         const chatBox = document.getElementById("chat-box");
-        chatBox.innerHTML += "<p>" + nick + ": " + data + "</p>";
+        const messageClass = nick === name ? "sent" : "received";
+        const messageSender = nick !== name ? nick : "You";
+        chatBox.innerHTML += `
+          <div class="message">
+            <div class="message-sender">${messageSender}</div>
+            <div class="message-text ${messageClass}">${data}</div>
+          </div>
+        `;
       })
 
       function sendMessage() {
         const messageInput = document.getElementById("message-input");
-        const chatBox = document.getElementById("chat-box");
         const message = messageInput.value;
         messageInput.value = "";
         socket.emit('message', name, message);
       }
+
+      const messageForm = document.getElementById("message-form");
+      messageForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        sendMessage();
+      });
     </script>
   </body>
 </html>
