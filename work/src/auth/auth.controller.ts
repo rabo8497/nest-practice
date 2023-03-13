@@ -12,7 +12,7 @@ export class AuthController {
     @Get('/signup')
     @Render('signup')
     getSignupPage() {
-        return 0
+        return 0 // render을 사용했기에 임의로 지정
     }
 
     @Get('/login')
@@ -25,6 +25,17 @@ export class AuthController {
     @Render('myinfo')
     getMyInfoPage() {
         return 0
+    }
+
+    @Get('/otherinfo/:id')
+    @Render('otherinfo')
+    getOtherPage() {
+        return 0
+    }
+
+    @Get('/otherinfo/:id/status')
+    getOtherInfoPage(@Param('id') id: number): Promise<string[]> {
+        return this.authService.getOtherInfoPage(id)
     }
 
     @Post('/signup')
@@ -43,5 +54,10 @@ export class AuthController {
         @Body() authCredentialDto: AuthCredentialDto
     ): Promise<User> {
         return this.authService.updateUserSelect(id, authCredentialDto)
+    }
+
+    @Post('/otherinfo')
+    getIsOtherInfo(@Body() body: AuthCredentialDto): Promise<User> {
+        return this.authService.getIsOtherInfo(body)
     }
 }

@@ -116,18 +116,25 @@
             },
             body: JSON.stringify(data)
             })
+            .then(data => {
+              if(!data.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`)
+              } else {
+                alert('Board created successfully!');
+
+                fetch('http://localhost:3000/auth/login')
+                  .then(response => {
+                    window.location = response.url
+                  }) 
+                  .then(data => console.log(data)) 
+                  .catch(error => console.error(error));
+              }
+            })
             .catch((error) => {
-            alert('Something went wrong');
+            alert('이미 있는 아이디');
             console.error('Error:', error);
         });
-        alert('Board created successfully!');
-
-        fetch('http://localhost:3000/auth/login')
-          .then(response => {
-            window.location = response.url
-          }) 
-          .then(data => console.log(data)) 
-          .catch(error => console.error(error));
+        
         }
       }
     </script>

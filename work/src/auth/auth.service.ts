@@ -19,6 +19,12 @@ export class AuthService {
 
     async signUp(authCredentialDto: AuthCredentialDto): Promise<void> {
         const {username, password, play1, play2, select1, select2, select3} = authCredentialDto;
+        
+        const found = await this.userRepository.findOneBy({username})
+        if (found) {
+            throw new NotFoundException("can't find")
+        }
+
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt)
         const user = this.userRepository.create({
@@ -66,5 +72,20 @@ export class AuthService {
         found.select3 = select3;
         await this.userRepository.save(found)
         return found
+    }
+
+    async getIsOtherInfo(body: AuthCredentialDto): Promise<User> {
+        const {username} = body
+        const found = await this.userRepository.findOneBy({username})
+        if (!found) {
+            throw new NotFoundException("can't find")
+        }
+        return found
+    }
+
+    async getOtherInfoPage(id: number): Promise<string[]> {
+        const found = await this.userRepository.findOneBy({id})
+        return [found.username, found.play1, found.play2, 
+            found.select1, found.select2, found.select3]
     }
 }

@@ -103,12 +103,9 @@
       const searchInput = searchForm.querySelector('input[type="text"]');
       
       searchForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // prevent the form from submitting
-        
+        event.preventDefault();
         const searchText = searchInput.value;
         console.log('Searched text:', searchText);
-        
-        // you can add code here to perform the actual search
       });
     </script>
   </body>

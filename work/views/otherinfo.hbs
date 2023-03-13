@@ -51,33 +51,6 @@
         background-color: #fff;
         color: #333;
       }
-      
-      form {
-        display: flex;
-        align-items: center;
-      }
-      
-      input[type="text"] {
-        padding: 5px;
-        border-radius: 5px;
-        border: none;
-        margin-right: 10px;
-      }
-      
-      button[type="submit"] {
-        background-color: #fff;
-        color: #333;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 10px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      
-      button[type="submit"]:hover {
-        background-color: #333;
-        color: #fff;
-      }
     </style>
     <title>My Personal Information</title>
   </head>
@@ -90,13 +63,101 @@
           <li><a href="http://localhost:3000/auth/myinfo">Me</a></li>
         </ul>
       </nav>
-      <form id="search-form" action="#" method="get">
-        <input type="text" placeholder="Search...">
-        <button type="submit">Search</button>
-      </form>
     </header>
     <main>
-        
+        <head>
+	<title>Personal Information</title>
+</head>
+<body>
+	<h1>Personal Information</h1>
+	<p>Nickname: <span id="nickname"></span></p>
+	<p>Favorite Instruments:</p>
+	<ul>
+		<li><span id="instrument1"></span></li>
+		<li><span id="instrument2"></span></li>
+	</ul>
+    <p>Schedule:</p>
+	<ul>
+		<li><span id="schedule1"></span></li>
+		<li><span id="schedule2"></span></li>
+        <li><span id="schedule3"></span></li>
+	</ul>
+
+	<script>
+	var nickname_ = document.getElementById("nickname")
+    var instrument1_ = document.getElementById("instrument1")
+    var instrument2_ = document.getElementById("instrument2")
+    var schedule1_ = document.getElementById("schedule1")
+    var schedule2_ = document.getElementById("schedule2")
+    var schedule3_ = document.getElementById("schedule3")
+    var schedule_ = [schedule1_, schedule2_, schedule3_]
+    const Token = localStorage.getItem('token');
+
+    fetch(window.location.href+'/status')
+    .then(response => {
+        return response.json()
+    }) // 응답을 JSON 형식으로 변환
+    .then(data => {
+      nickname_.innerHTML = data[0]
+      instrument1_.innerHTML = data[1]
+      instrument2_.innerHTML = data[2]
+      
+      for (let i = 0; i < 3; i++) {
+        var n = data[3+i]
+        if (n==='box_0') schedule_[i].innerHTML = "A 00:00~01:00"
+        else if (n==='box-1') schedule_[i].innerHTML = "A 01:00~02:00"
+        else if (n==='box-2') schedule_[i].innerHTML = "A 02:00~03:00"
+        else if (n==='box-3') schedule_[i].innerHTML = "A 03:00~04:00"
+        else if (n==='box-4') schedule_[i].innerHTML = "A 04:00~05:00"
+        else if (n==='box-5') schedule_[i].innerHTML = "A 05:00~06:00"
+        else if (n==='box-6') schedule_[i].innerHTML = "A 06:00~07:00"
+        else if (n==='box-7') schedule_[i].innerHTML = "A 07:00~08:00"
+        else if (n==='box-8') schedule_[i].innerHTML = "A 08:00~09:00"
+        else if (n==='box-9') schedule_[i].innerHTML = "A 09:00~10:00"
+        else if (n==='box-10') schedule_[i].innerHTML = "A 10:00~11:00"
+        else if (n==='box-11') schedule_[i].innerHTML = "A 11:00~12:00"
+        else if (n==='box-12') schedule_[i].innerHTML = "A 12:00~13:00"
+        else if (n==='box-13') schedule_[i].innerHTML = "A 13:00~14:00"
+        else if (n==='box-14') schedule_[i].innerHTML = "A 14:00~15:00"
+        else if (n==='box-15') schedule_[i].innerHTML = "A 15:00~16:00"
+        else if (n==='box-16') schedule_[i].innerHTML = "A 16:00~17:00"
+        else if (n==='box-17') schedule_[i].innerHTML = "A 17:00~18:00"
+        else if (n==='box-18') schedule_[i].innerHTML = "A 18:00~19:00"
+        else if (n==='box-19') schedule_[i].innerHTML = "A 19:00~20:00"
+        else if (n==='box-20') schedule_[i].innerHTML = "A 20:00~21:00"
+        else if (n==='box-21') schedule_[i].innerHTML = "A 21:00~22:00"
+        else if (n==='box-22') schedule_[i].innerHTML = "A 22:00~23:00"
+        else if (n==='box-23') schedule_[i].innerHTML = "A 23:00~24:00"
+
+        else if (n==='box-24') schedule_[i].innerHTML = "B 00:00~01:00"
+        else if (n==='box-25') schedule_[i].innerHTML = "B 01:00~02:00"
+        else if (n==='box-26') schedule_[i].innerHTML = "B 02:00~03:00"
+        else if (n==='box-27') schedule_[i].innerHTML = "B 03:00~04:00"
+        else if (n==='box-28') schedule_[i].innerHTML = "B 04:00~05:00"
+        else if (n==='box-29') schedule_[i].innerHTML = "B 05:00~06:00"
+        else if (n==='box-30') schedule_[i].innerHTML = "B 06:00~07:00"
+        else if (n==='box-31') schedule_[i].innerHTML = "B 07:00~08:00"
+        else if (n==='box-32') schedule_[i].innerHTML = "B 08:00~09:00"
+        else if (n==='box-33') schedule_[i].innerHTML = "B 09:00~10:00"
+        else if (n==='box-34') schedule_[i].innerHTML = "B 10:00~11:00"
+        else if (n==='box-35') schedule_[i].innerHTML = "B 11:00~12:00"
+        else if (n==='box-36') schedule_[i].innerHTML = "B 12:00~13:00"
+        else if (n==='box-37') schedule_[i].innerHTML = "B 13:00~14:00"
+        else if (n==='box-38') schedule_[i].innerHTML = "B 14:00~15:00"
+        else if (n==='box-39') schedule_[i].innerHTML = "B 15:00~16:00"
+        else if (n==='box-40') schedule_[i].innerHTML = "B 16:00~17:00"
+        else if (n==='box-41') schedule_[i].innerHTML = "B 17:00~18:00"
+        else if (n==='box-42') schedule_[i].innerHTML = "B 18:00~19:00"
+        else if (n==='box-43') schedule_[i].innerHTML = "B 19:00~20:00"
+        else if (n==='box-44') schedule_[i].innerHTML = "B 20:00~21:00"
+        else if (n==='box-45') schedule_[i].innerHTML = "B 21:00~22:00"
+        else if (n==='box-46') schedule_[i].innerHTML = "B 22:00~23:00"
+        else if (n==='box-47') schedule_[i].innerHTML = "B 23:00~24:00"
+      }
+    }) // 데이터 출력
+    .catch(error => console.error(error));
+	</script>
+</body>
     </main>
   </body>
 </html>
