@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Param, Patch, Post, Redirect, Render } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Redirect, Render, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthCredentialDto } from './dto/auth-credential.dto';
+import { GetUser } from './get-user.decorator';
 import User from './user.entity';
 
 @Controller('auth')
@@ -21,7 +23,7 @@ export class AuthController {
 
     @Get('/myinfo')
     @Render('myinfo')
-    getInfoPage() {
+    getMyInfoPage() {
         return 0
     }
 

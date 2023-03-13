@@ -66,5 +66,5 @@ export class AuthService {
         found.select3 = select3;
         await this.userRepository.save(found)
         return found
-     }
+    }
 }

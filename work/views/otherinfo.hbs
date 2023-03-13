@@ -51,6 +51,33 @@
         background-color: #fff;
         color: #333;
       }
+      
+      form {
+        display: flex;
+        align-items: center;
+      }
+      
+      input[type="text"] {
+        padding: 5px;
+        border-radius: 5px;
+        border: none;
+        margin-right: 10px;
+      }
+      
+      button[type="submit"] {
+        background-color: #fff;
+        color: #333;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      button[type="submit"]:hover {
+        background-color: #333;
+        color: #fff;
+      }
     </style>
     <title>My Personal Information</title>
   </head>
@@ -63,49 +90,13 @@
           <li><a href="http://localhost:3000/auth/myinfo">Me</a></li>
         </ul>
       </nav>
+      <form id="search-form" action="#" method="get">
+        <input type="text" placeholder="Search...">
+        <button type="submit">Search</button>
+      </form>
     </header>
     <main>
-        <head>
-	<title>Personal Information</title>
-	<script>
-		function logout() {
-			// code to logout goes here
-			alert("Logged out successfully!");
-      localStorage.removeItem('token')
-      window.location = "http://localhost:3000/home"
-		}
-	</script>
-</head>
-<body>
-	<h1>Personal Information</h1>
-	<p>Nickname: <span id="nickname"></span></p>
-	<p>Favorite Instruments:</p>
-	<ul>
-		<li><span id="instrument1"></span></li>
-		<li><span id="instrument2"></span></li>
-	</ul>
-	<button onclick="logout()">Logout</button>
-	<script>
-		var nickname_ = document.getElementById("nickname")
-    var instrument1_ = document.getElementById("instrument1")
-    var instrument2_ = document.getElementById("instrument2")
-    const Token = localStorage.getItem('token');
-
-    fetch("http://localhost:3000/schedule/myinfo", {
-      method: "GET", // GET 요청
-      headers: {
-        "Authorization": `Bearer ${Token}` // 헤더에 토큰 값 추가
-      }
-    })
-    .then(response => response.json()) // 응답을 JSON 형식으로 변환
-    .then(data => {
-      nickname_.innerHTML = data[0]
-      instrument1_.innerHTML = data[1]
-      instrument2_.innerHTML = data[2]
-    }) // 데이터 출력
-    .catch(error => console.error(error));
-	</script>
-</body>
+        
     </main>
   </body>
 </html>

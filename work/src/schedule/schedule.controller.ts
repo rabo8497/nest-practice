@@ -23,6 +23,12 @@ export class ScheduleController {
     }
 
     @UseGuards(AuthGuard('jwt'))
+    @Get('/myinfo')
+    getMyInfo(@GetUser() user: User): Promise<string[]> {
+        return this.scheduleService.getMyInfo(user)
+    }
+
+    @UseGuards(AuthGuard('jwt'))
     @Post()
     createSche(@Body() scheCredentialDto: ScheCredentialDto, @GetUser() user:User) {
         return this.scheduleService.createSche(scheCredentialDto, user)

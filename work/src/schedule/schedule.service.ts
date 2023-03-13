@@ -26,6 +26,10 @@ export class ScheduleService {
         return this.scheRepository.find()
     }
 
+    async getMyInfo(user: User): Promise<string[]> {
+        return [user.username, user.play1, user.play2]
+    }
+
     async getAuthSche(user: User): Promise<Sche[]> {
         const query = this.scheRepository.createQueryBuilder('sche');
         query.where('sche.userId = :userId', {userId: user.id})
