@@ -11,7 +11,7 @@ export const databaseProviders = [
         host: 'localhost',
         port: 5123,
         username: 'postgres',
-        password: '',
+        password: 'kim00714',
         database: 'work',
         entities: [
             User,
